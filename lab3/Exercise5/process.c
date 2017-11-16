@@ -13,7 +13,7 @@
 #include <stdlib.h>  // exit
 
 
-int main()
+int main(int argc,  char** argv)
 {
 	pid_t retPid;    // Prozess ID
 	int stat;
@@ -30,8 +30,12 @@ int main()
 		*/
 
 		printf("\nHier ist das Kind\n");
-		execlp("ls", "ls", (char *)NULL);
-
+		if(argc==1)
+			execlp("ls", "ls", (char *)NULL);
+		else {
+			sleep(atoi(argv[1]));
+			printf("Printed message after sleep from child.\n");
+		}
 		/*
 		// Programmteil parallel zum Vater Prozess ausgefuehrt
 		...
@@ -57,7 +61,7 @@ int main()
 		printf("\nHier ist der Vater\n\n");
 		wait(&stat);
 		if (WIFEXITED(stat))
-        	printf("Exit status of child: %d\n", stat);
+        	printf("Exit status of child: %d\n", WEXITSTATUS(stat));
 		/*
 		// Programmteil parallel zum Kind-Prozess ausgefuehrt
 		...
